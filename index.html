@@ -1,22 +1,22 @@
 <!doctype html>
 <html lang="ko">
   <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>&lt;2030년 국가 경영 시뮬레이션&gt;</title>
-    <link rel="stylesheet" href="./styles.css" />
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>2030년 국가 경영 시뮬레이션</title>
+    <link rel="stylesheet" href="styles.css">
   </head>
   <body>
-    <div class="app-shell">
-      <header class="top-bar">
+    <main class="game-shell">
+      <header class="topbar">
         <div>
-          <h1>&lt;2030년 국가 경영 시뮬레이션&gt;</h1>
-          <p class="status-line" id="difficultyText">2030년대 자동화 충격이 시작되었습니다.</p>
+          <h1>2030년 국가 경영 시뮬레이션</h1>
+          <p id="phaseText" class="phase">0년차 · 자동화 충격 개시</p>
         </div>
-        <div class="time-board" aria-label="현재 국가 시간">
+        <section class="time-panel" aria-label="시간과 점수">
           <div>
             <span>현재 날짜</span>
-            <strong id="currentDate">2030년 01월 01일</strong>
+            <strong id="dateText">2030년 01월 01일</strong>
           </div>
           <div>
             <span>존속 기간</span>
@@ -26,54 +26,52 @@
             <span>점수</span>
             <strong id="scoreText">0개월</strong>
           </div>
-        </div>
+        </section>
       </header>
 
-      <main class="game-grid" aria-live="polite">
-        <section class="panel metrics-panel" aria-labelledby="metricsTitle">
+      <section class="layout">
+        <section class="metrics-panel" aria-label="핵심 지표">
           <div class="section-head">
-            <h2 id="metricsTitle">국가 지표</h2>
-            <span>0이 되면 붕괴</span>
+            <h2>국가 지표</h2>
+            <button id="restartButton" class="icon-button" type="button" aria-label="다시 시작" title="다시 시작">↻</button>
           </div>
-          <div class="metric-list" id="metricList"></div>
+          <div id="metrics" class="metrics"></div>
+          <div class="graph-wrap">
+            <canvas id="historyCanvas" width="980" height="300" aria-label="지표 변화 그래프"></canvas>
+          </div>
         </section>
 
-        <section class="panel policy-panel" aria-labelledby="policyTitle">
+        <aside class="policy-panel" aria-label="정책 조정">
           <div class="section-head">
-            <h2 id="policyTitle">정책 Bar</h2>
-            <span>즉시 반영</span>
+            <h2>정책</h2>
+            <span id="pressureText" class="pressure">균형 상태</span>
           </div>
-          <div class="policy-list" id="policyList"></div>
-        </section>
+          <div id="policies" class="policies"></div>
+        </aside>
+      </section>
 
-        <section class="event-card" aria-labelledby="eventTitle">
-          <div class="event-heading">
-            <span id="eventCategory">상황 보고</span>
-            <strong id="eventTitle">국가 운영 시작</strong>
-          </div>
-          <p id="eventBody">정책 Bar를 조절해 국고, 소비력, 고용율, 국내 자본, 정부 지지율을 동시에 버티게 하십시오.</p>
-          <div class="event-effects" id="eventEffects"></div>
-          <p class="notice" id="noticeText">알림: 소비자와 기업, 재정은 서로를 필요로 하지만 같은 방향으로 움직이지 않습니다.</p>
-        </section>
-      </main>
-    </div>
+      <section class="event-area" aria-label="최근 이벤트">
+        <article id="eventCard" class="event-card">
+          <div class="event-category">시뮬레이션 시작</div>
+          <h2>정책 bar를 조절해 국가를 유지하십시오</h2>
+          <p>고용 붕괴는 먼저 오고, 소비 붕괴는 뒤늦게 따라옵니다.</p>
+          <div id="eventEffects" class="event-effects"></div>
+        </article>
+        <p id="noticeText" class="notice">알림: 국가가 2030년 01월 01일부터 실시간으로 운영됩니다.</p>
+      </section>
 
-    <div class="collapse-screen hidden" id="collapseScreen" role="dialog" aria-modal="true" aria-labelledby="collapseTitle">
-      <div class="collapse-panel">
-        <p>국가 붕괴</p>
-        <h2 id="collapseTitle">국가 붕괴</h2>
-        <div class="collapse-stats">
-          <span>존속 기간</span>
-          <strong id="finalSurvival">0년 0개월</strong>
-          <span>최종 점수</span>
-          <strong id="finalScore">0개월</strong>
-          <span>붕괴 원인</span>
-          <strong id="collapseReason">국고</strong>
+      <section id="gameOver" class="game-over" aria-modal="true" role="dialog" hidden>
+        <div class="modal">
+          <h2>국가 붕괴</h2>
+          <p id="finalSurvival">존속 기간: 0년 0개월</p>
+          <p id="finalScore">최종 점수: 0개월</p>
+          <p id="collapseCause">붕괴 원인: 국고</p>
+          <button id="modalRestartButton" type="button">다시 시작</button>
         </div>
-        <button type="button" id="restartButton">다시 운영</button>
-      </div>
-    </div>
+      </section>
+    </main>
 
-    <script src="./app.js"></script>
+    <script src="simulation.js"></script>
+    <script src="app.js"></script>
   </body>
 </html>
